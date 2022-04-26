@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC } from 'react'
 
-function App() {
+import { Container } from '@mui/material'
+import { Navigate, Route, Routes } from 'react-router-dom'
+
+import { AppBar } from 'components'
+import { useAppSelector, useNotifier } from 'hooks'
+import { Collaborations, SignIn, SignUp } from 'pages'
+
+const App: FC = () => {
+  useNotifier()
+  const isAuth = useAppSelector(state => !!state.auth.token)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <React.Fragment>
+      <AppBar />
+      <Container>
+        <Routes>
+          {isAuth ? (
+            <>
+              <Route path="/collaborations" element={<Collaborations />} />
+              <Route path="*" element={<Navigate to="/collaborations" />} />
+            </>
+          ) : (
+            <>
+              <Route path="/sign-up" element={<SignUp />} />
+              <Route path="/sign-in" element={<SignIn />} />
+              <Route path="*" element={<Navigate to="/sign-in" />} />
+            </>
+          )}
+        </Routes>
+      </Container>
+    </React.Fragment>
+  )
 }
 
-export default App;
+export default App

@@ -1,0 +1,1 @@
+export { rtkQueryErrorHandler } from './rtkQueryErrorHandler'
