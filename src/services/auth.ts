@@ -1,6 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-type SignUpCredentials = { email: string; password: string }
+import { User } from 'models'
+
+type SignUpCredentials = Pick<
+  User,
+  'email' | 'password' | 'username' | 'firstName' | 'lastName'
+>
 type SignInCredentials = { email: string; password: string }
 type AuthToken = { token: string }
 
@@ -11,17 +16,17 @@ export const authAPI = createApi({
   }),
   endpoints: build => ({
     signUp: build.mutation<AuthToken, SignUpCredentials>({
-      query: credentials => ({
+      query: body => ({
         url: '/sign-up',
         method: 'POST',
-        body: credentials
+        body
       })
     }),
     signIn: build.mutation<AuthToken, SignInCredentials>({
-      query: credentials => ({
+      query: body => ({
         url: '/sign-in',
         method: 'POST',
-        body: credentials
+        body
       })
     })
   })

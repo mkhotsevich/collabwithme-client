@@ -4,29 +4,29 @@ import {
   isRejectedWithValue
 } from '@reduxjs/toolkit'
 
+import { Notification } from 'models'
+import { setToken } from 'store/auth'
 import { enqueueSnackbar } from 'store/notifications'
 
 export const rtkQueryErrorHandler: Middleware =
   (api: MiddlewareAPI) => next => action => {
     if (isRejectedWithValue(action)) {
-      if (action?.payload?.data?.message) {
-        api.dispatch(
-          enqueueSnackbar({
-            key: new Date().getTime() + Math.random(),
-            message: action.payload.data.message,
-            options: { variant: 'error' }
-          })
-        )
-      } else {
-        api.dispatch(
-          enqueueSnackbar({
-            key: new Date().getTime() + Math.random(),
-            message: 'Что-то пошло не так, повторите попытку',
-            options: { variant: 'error' }
-          })
-        )
+      const notification: Notification = {
+        key: new Date().getTime() + Math.random(),
+        message: 'Что-то пошло не так, повторите попытку',
+        options: { variant: 'error' }
       }
-    }
+      const message = action?.payload?.data?.message
 
+      if (message) {
+        notification.message = message
+      }
+
+      if (action.payload.status === 401) {
+        api.dispatch(setToken(null))
+      }
+
+      api.dispatch(enqueueSnackbar(notification))
+    }
     return next(action)
   }

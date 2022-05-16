@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from 'hooks'
-import { setCredentials } from 'store/auth'
+import { setToken } from 'store/auth'
 
 export const useAuth = () => {
   const dispatch = useAppDispatch()
@@ -7,12 +7,12 @@ export const useAuth = () => {
 
   const signIn = (token: string) => {
     localStorage.setItem('token', token)
-    dispatch(setCredentials(token))
+    dispatch(setToken(token))
   }
 
   const signOut = () => {
     localStorage.removeItem('token')
-    dispatch(setCredentials(null))
+    dispatch(setToken(null))
   }
 
   return { token, signIn, signOut, isAuth: !!token }

@@ -3,10 +3,10 @@ import React, { FC } from 'react'
 import { TextField, TextFieldProps } from '@mui/material'
 import { Control, Controller } from 'react-hook-form'
 
-type InputProps = {
+type InputProps = TextFieldProps & {
   name: string
   control: Control<any, any>
-} & TextFieldProps
+}
 
 const Input: FC<InputProps> = ({ name, control, defaultValue, ...props }) => {
   return (

@@ -4,12 +4,19 @@ import { Container } from '@mui/material'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { AppBar } from 'components'
-import { useAppSelector, useNotifier } from 'hooks'
-import { Collaborations, SignIn, SignUp } from 'pages'
+import { useAuth, useNotifier } from 'hooks'
+import {
+  Collaborations,
+  Profile,
+  Responses,
+  SignIn,
+  SignUp,
+  CreateCollaboration
+} from 'pages'
 
 const App: FC = () => {
   useNotifier()
-  const isAuth = useAppSelector(state => !!state.auth.token)
+  const { isAuth } = useAuth()
 
   return (
     <React.Fragment>
@@ -19,6 +26,12 @@ const App: FC = () => {
           {isAuth ? (
             <>
               <Route path="/collaborations" element={<Collaborations />} />
+              <Route
+                path="/collaborations/create"
+                element={<CreateCollaboration />}
+              />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/responses" element={<Responses />} />
               <Route path="*" element={<Navigate to="/collaborations" />} />
             </>
           ) : (
