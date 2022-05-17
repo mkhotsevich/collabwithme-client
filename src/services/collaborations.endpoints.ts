@@ -6,6 +6,11 @@ type CreateCollaboration = Pick<
   'name' | 'description' | 'networkIds' | 'categoryIds'
 >
 
+type UpdateCollaborationDto = Pick<
+  Collaboration,
+  'name' | 'description' | 'networkIds' | 'categoryIds' | 'id'
+>
+
 const collaborationsAPI = collaberAPI
   .enhanceEndpoints({ addTagTypes: ['Collaboration'] })
   .injectEndpoints({
@@ -31,6 +36,21 @@ const collaborationsAPI = collaberAPI
       >({
         query: id => ({ url: `collaborations/${id}` }),
         providesTags: result => [{ type: 'Collaboration', id: result?.id }]
+      }),
+      updateCollaboration: build.mutation<
+        Collaboration,
+        UpdateCollaborationDto
+      >({
+        query: ({ id, ...body }) => ({
+          url: `collaborations/${id}`,
+          method: 'PATCH',
+          body
+        }),
+        invalidatesTags: ['Collaboration']
+      }),
+      deleteCollaboration: build.mutation<void, string | number>({
+        query: id => ({ url: `collaborations/${id}`, method: 'DELETE' }),
+        invalidatesTags: ['Collaboration']
       })
     })
   })
@@ -39,5 +59,7 @@ export const {
   useCreateCollaborationMutation,
   useGetCollaborationsQuery,
   useGetCollaborationByUserIdQuery,
-  useGetCollaborationByIdQuery
+  useGetCollaborationByIdQuery,
+  useUpdateCollaborationMutation,
+  useDeleteCollaborationMutation
 } = collaborationsAPI

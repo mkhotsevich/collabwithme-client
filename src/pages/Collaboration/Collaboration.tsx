@@ -1,13 +1,27 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 
-import { Chip, Grid, Typography } from '@mui/material'
-import { useParams } from 'react-router-dom'
+import { Button, Chip, Grid, Typography } from '@mui/material'
+import { useNavigate, useParams } from 'react-router-dom'
 
-import { useGetCollaborationByIdQuery } from 'services/collaborations.endpoints'
+import {
+  useGetCollaborationByIdQuery,
+  useDeleteCollaborationMutation
+} from 'services/collaborations.endpoints'
+
+import EditCollaborationModal from './EditCollaborationModal'
 
 const Collaboration: FC = () => {
   const { id: collaborationId } = useParams<{ id: string }>()
+  const navigate = useNavigate()
   const { data: collaboration } = useGetCollaborationByIdQuery(collaborationId)
+  const [deleteCollaboration] = useDeleteCollaborationMutation()
+  const [update, setUpdate] = useState(false)
+
+  const deleteHandler = async () => {
+    if (!collaborationId) return
+    await deleteCollaboration(collaborationId).unwrap()
+    navigate('/my-collaborations')
+  }
 
   return (
     <Grid container direction="column" rowGap={2}>
@@ -44,6 +58,25 @@ const Collaboration: FC = () => {
           ))}
         </Grid>
       </Grid>
+
+      <Grid item>
+        <Grid container columnGap={2} justifyContent="flex-end">
+          <Grid item>
+            <Button onClick={() => setUpdate(true)}>Редактировать</Button>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={() => deleteHandler()}
+            >
+              Удалить
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+
+      <EditCollaborationModal open={update} onClose={() => setUpdate(false)} />
     </Grid>
   )
 }
