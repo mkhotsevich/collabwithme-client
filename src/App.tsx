@@ -11,7 +11,9 @@ import {
   Responses,
   SignIn,
   SignUp,
-  CreateCollaboration
+  Statistics,
+  MyCollaborations,
+  Collaboration
 } from 'pages'
 
 const App: FC = () => {
@@ -26,11 +28,10 @@ const App: FC = () => {
           {isAuth ? (
             <>
               <Route path="/collaborations" element={<Collaborations />} />
-              <Route
-                path="/collaborations/create"
-                element={<CreateCollaboration />}
-              />
+              <Route path="/collaborations/:id" element={<Collaboration />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/statistics" element={<Statistics />} />
+              <Route path="/my-collaborations" element={<MyCollaborations />} />
               <Route path="/responses" element={<Responses />} />
               <Route path="*" element={<Navigate to="/collaborations" />} />
             </>

@@ -40,22 +40,29 @@ const AppBar: FC = () => {
               </Grid>
             </Grid>
           </Grid>
+
           <Grid item>
             <Grid container columnSpacing={2}>
               <Grid item>
                 <Button
                   component={NavLink}
-                  to="/collaborations/create"
+                  to="/my-collaborations"
                   variant="text"
                   color="inherit"
                 >
-                  Создать коллаборацию
+                  Мои коллаборации
                 </Button>
               </Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container columnSpacing={2}>
+              <Grid item>
+                <Button
+                  component={NavLink}
+                  to="/statistics"
+                  variant="text"
+                  color="inherit"
+                >
+                  Статистика
+                </Button>
+              </Grid>
               <Grid item>
                 <Button
                   component={NavLink}

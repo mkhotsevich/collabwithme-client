@@ -17,9 +17,27 @@ const collaborationsAPI = collaberAPI
       getCollaborations: build.query<Collaboration[], void>({
         query: () => ({ url: 'collaborations' }),
         providesTags: result => providesList(result, 'Collaboration')
+      }),
+      getCollaborationByUserId: build.query<
+        Collaboration[],
+        string | number | null
+      >({
+        query: id => ({ url: `collaborations/users/${id}` }),
+        providesTags: result => providesList(result, 'Collaboration')
+      }),
+      getCollaborationById: build.query<
+        Collaboration,
+        string | number | undefined
+      >({
+        query: id => ({ url: `collaborations/${id}` }),
+        providesTags: result => [{ type: 'Collaboration', id: result?.id }]
       })
     })
   })
 
-export const { useCreateCollaborationMutation, useGetCollaborationsQuery } =
-  collaborationsAPI
+export const {
+  useCreateCollaborationMutation,
+  useGetCollaborationsQuery,
+  useGetCollaborationByUserIdQuery,
+  useGetCollaborationByIdQuery
+} = collaborationsAPI
