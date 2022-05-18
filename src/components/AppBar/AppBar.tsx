@@ -43,46 +43,48 @@ const AppBar: FC = () => {
 
           <Grid item>
             <Grid container columnSpacing={2}>
-              <Grid item>
-                <Button
-                  component={NavLink}
-                  to="/my-collaborations"
-                  variant="text"
-                  color="inherit"
-                >
-                  Мои коллаборации
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  component={NavLink}
-                  to="/statistics"
-                  variant="text"
-                  color="inherit"
-                >
-                  Статистика
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  component={NavLink}
-                  to="/profile"
-                  variant="text"
-                  color="inherit"
-                >
-                  Профиль
-                </Button>
-              </Grid>
               {isAuth ? (
-                <Grid item>
-                  <Button
-                    variant="text"
-                    color="inherit"
-                    onClick={() => signOut()}
-                  >
-                    Выйти
-                  </Button>
-                </Grid>
+                <>
+                  <Grid item>
+                    <Button
+                      component={NavLink}
+                      to="/my-collaborations"
+                      variant="text"
+                      color="inherit"
+                    >
+                      Мои коллаборации
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      component={NavLink}
+                      to="/my-responses"
+                      variant="text"
+                      color="inherit"
+                    >
+                      Мои отклики
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      component={NavLink}
+                      to="/profile"
+                      variant="text"
+                      color="inherit"
+                    >
+                      Профиль
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      variant="text"
+                      color="inherit"
+                      onClick={() => signOut()}
+                    >
+                      Выйти
+                    </Button>
+                  </Grid>
+                </>
               ) : (
                 <Grid item>
                   <Button

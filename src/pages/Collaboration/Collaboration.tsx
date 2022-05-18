@@ -9,6 +9,7 @@ import {
 } from 'services/collaborations.endpoints'
 
 import EditCollaborationModal from './EditCollaborationModal'
+import ResponseCard from './ResponseCard'
 
 const Collaboration: FC = () => {
   const { id: collaborationId } = useParams<{ id: string }>()
@@ -26,7 +27,11 @@ const Collaboration: FC = () => {
   return (
     <Grid container direction="column" rowGap={2}>
       <Grid item>
-        <Typography variant="h1">{collaboration?.name}</Typography>
+        <Typography variant="h2">Общая информация</Typography>
+      </Grid>
+
+      <Grid item>
+        <Typography variant="h6">{collaboration?.name}</Typography>
       </Grid>
 
       <Grid item>
@@ -75,6 +80,16 @@ const Collaboration: FC = () => {
           </Grid>
         </Grid>
       </Grid>
+
+      <Grid item>
+        <Typography variant="h2">Отклики</Typography>
+      </Grid>
+
+      {collaboration?.responses.map(response => (
+        <Grid key={response.id} item>
+          <ResponseCard response={response} />
+        </Grid>
+      ))}
 
       <EditCollaborationModal open={update} onClose={() => setUpdate(false)} />
     </Grid>

@@ -13,7 +13,8 @@ import {
   SignUp,
   Statistics,
   MyCollaborations,
-  Collaboration
+  Collaboration,
+  MyResponses
 } from 'pages'
 
 const App: FC = () => {
@@ -32,6 +33,7 @@ const App: FC = () => {
               <Route path="/profile" element={<Profile />} />
               <Route path="/statistics" element={<Statistics />} />
               <Route path="/my-collaborations" element={<MyCollaborations />} />
+              <Route path="/my-responses" element={<MyResponses />} />
               <Route path="/responses" element={<Responses />} />
               <Route path="*" element={<Navigate to="/collaborations" />} />
             </>

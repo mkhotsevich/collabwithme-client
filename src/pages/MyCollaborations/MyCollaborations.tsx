@@ -23,7 +23,7 @@ const MyCollaborations: FC = () => {
     useState(false)
 
   return (
-    <Grid container direction="column" rowGap={2}>
+    <Grid container direction="column" rowGap={2} flexGrow={1}>
       <Grid item>
         <Grid container columnGap={4} alignItems="center">
           <Grid item>
@@ -36,6 +36,20 @@ const MyCollaborations: FC = () => {
           </Grid>
         </Grid>
       </Grid>
+
+      {!collaborations?.length && (
+        <Grid
+          item
+          flexGrow={1}
+          container
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Typography>
+            У пока вас нет коллабораций, но вы можете создать ее прямо сейчас!
+          </Typography>
+        </Grid>
+      )}
 
       {collaborations?.map(collaboration => (
         <Grid key={collaboration.id} item>
