@@ -6,7 +6,7 @@ import { FieldError, SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 import { Input, Modal, Select } from 'components'
-import { useGetCategoriesQuery } from 'services/categories'
+import { useGetCategoriesQuery } from 'services/categories.endpoints'
 import { useCreateCollaborationMutation } from 'services/collaborations.endpoints'
 import { useGetNetworksQuery } from 'services/networks.endpoints'
 

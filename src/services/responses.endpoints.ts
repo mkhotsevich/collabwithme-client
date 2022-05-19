@@ -12,8 +12,9 @@ const responsesEndpoints = collaberAPI
         query: body => ({ url: 'responses', method: 'POST', body }),
         invalidatesTags: ['Collaboration', 'Response']
       }),
-      getResponses: build.mutation<Response[], void>({
-        query: () => ({ url: 'responses' })
+      getResponses: build.query<Response[], void>({
+        query: () => ({ url: 'responses' }),
+        providesTags: result => providesList(result, 'Response')
       }),
       changeStatus: build.mutation<
         void,
@@ -35,7 +36,7 @@ const responsesEndpoints = collaberAPI
 
 export const {
   useCreateResponseMutation,
-  useGetResponsesMutation,
+  useGetResponsesQuery,
   useChangeStatusMutation,
   useGetResponsesByUserIdQuery
 } = responsesEndpoints

@@ -18,9 +18,14 @@ import MyCollaborationCard from './MyCollaborationCard'
 
 const MyCollaborations: FC = () => {
   const userId = useAppSelector(state => state.auth.user.id)
-  const { data: collaborations } = useGetCollaborationByUserIdQuery(userId)
+  const { data: collaborations, isLoading } =
+    useGetCollaborationByUserIdQuery(userId)
   const [openCreateCollaborationModal, setOpenCollaborationModal] =
     useState(false)
+
+  if (isLoading) {
+    return null
+  }
 
   return (
     <Grid container direction="column" rowGap={2} flexGrow={1}>

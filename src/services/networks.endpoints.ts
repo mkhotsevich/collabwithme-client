@@ -1,12 +1,15 @@
 import { Network } from 'models'
-import { collaberAPI } from 'services'
+import { collaberAPI, providesList } from 'services'
 
-const networksEndpoints = collaberAPI.injectEndpoints({
-  endpoints: build => ({
-    getNetworks: build.query<Network[], void>({
-      query: () => ({ url: 'networks' })
+const networksEndpoints = collaberAPI
+  .enhanceEndpoints({ addTagTypes: ['Network'] })
+  .injectEndpoints({
+    endpoints: build => ({
+      getNetworks: build.query<Network[], void>({
+        query: () => ({ url: 'networks' }),
+        providesTags: result => providesList(result, 'Network')
+      })
     })
   })
-})
 
 export const { useGetNetworksQuery } = networksEndpoints

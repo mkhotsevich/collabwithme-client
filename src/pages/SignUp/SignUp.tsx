@@ -8,7 +8,7 @@ import * as yup from 'yup'
 
 import { Form, Input } from 'components'
 import { useAuth } from 'hooks'
-import { useSignUpMutation } from 'services/auth'
+import { useSignUpMutation } from 'services/auth.endpoints'
 
 type FormData = {
   email: string
@@ -62,84 +62,92 @@ const SignUp: FC = () => {
   return (
     <Grid container justifyContent="center" alignItems="center" flexGrow={1}>
       <Paper sx={{ width: '512px', p: 2 }}>
-        <Form onSubmit={handleSubmit(submitHandler)}>
-          <Typography variant="h6" align="center">
-            Создание аккаунта
-          </Typography>
-
-          <Input
-            control={control}
-            name="email"
-            label="Email"
-            required
-            error={!!errors.email}
-            helperText={errors.email?.message}
-            margin="normal"
-          />
-          <Input
-            control={control}
-            name="password"
-            type="password"
-            label="Пароль"
-            required
-            error={!!errors.password}
-            helperText={errors.password?.message}
-            margin="normal"
-          />
-
-          <Input
-            control={control}
-            name="passwordConfirmation"
-            type="password"
-            label="Повторите пароль"
-            required
-            error={!!errors.passwordConfirmation}
-            helperText={errors.passwordConfirmation?.message}
-            margin="normal"
-          />
-
-          <Input
-            control={control}
-            name="username"
-            label="Псевдоним"
-            required
-            error={!!errors.username}
-            helperText={errors.username?.message}
-            margin="normal"
-          />
-
-          <Input
-            control={control}
-            name="firstName"
-            label="Имя"
-            required
-            error={!!errors.firstName}
-            helperText={errors.firstName?.message}
-            margin="normal"
-          />
-
-          <Input
-            control={control}
-            name="lastName"
-            label="Фамилия"
-            required
-            error={!!errors.firstName}
-            helperText={errors.firstName?.message}
-            margin="normal"
-          />
-
-          <Grid
-            sx={{ mt: 2 }}
-            container
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Button type="submit">Создать</Button>
-            <Button component={NavLink} to="/sign-in" variant="text">
-              Войти
-            </Button>
+        <Grid container direction="column" rowGap={2}>
+          <Grid item>
+            <Typography variant="h6">Создание аккаунта</Typography>
           </Grid>
-        </Form>
+
+          <Grid item>
+            <Input
+              control={control}
+              name="email"
+              label="Email"
+              required
+              error={!!errors.email}
+              helperText={errors.email?.message}
+            />
+          </Grid>
+
+          <Grid item>
+            <Input
+              control={control}
+              name="password"
+              type="password"
+              label="Пароль"
+              required
+              error={!!errors.password}
+              helperText={errors.password?.message}
+            />
+          </Grid>
+
+          <Grid item>
+            <Input
+              control={control}
+              name="passwordConfirmation"
+              type="password"
+              label="Повторите пароль"
+              required
+              error={!!errors.passwordConfirmation}
+              helperText={errors.passwordConfirmation?.message}
+            />
+          </Grid>
+
+          <Grid item>
+            <Input
+              control={control}
+              name="username"
+              label="Псевдоним"
+              required
+              error={!!errors.username}
+              helperText={errors.username?.message}
+            />
+          </Grid>
+
+          <Grid item>
+            <Input
+              control={control}
+              name="firstName"
+              label="Имя"
+              required
+              error={!!errors.firstName}
+              helperText={errors.firstName?.message}
+            />
+          </Grid>
+
+          <Grid item>
+            <Input
+              control={control}
+              name="lastName"
+              label="Фамилия"
+              required
+              error={!!errors.firstName}
+              helperText={errors.firstName?.message}
+            />
+          </Grid>
+
+          <Grid item>
+            <Grid container columnGap={2}>
+              <Grid item>
+                <Button onClick={handleSubmit(submitHandler)}>Создать</Button>
+              </Grid>
+              <Grid item>
+                <Button component={NavLink} to="/sign-in" variant="outlined">
+                  Войти
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
       </Paper>
     </Grid>
   )

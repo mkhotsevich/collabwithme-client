@@ -1,13 +1,33 @@
-import React, { FC } from 'react'
+import React, { FC, useCallback, useState } from 'react'
 
-import { Grid, Typography } from '@mui/material'
+import {
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography
+} from '@mui/material'
 
+import { Response } from 'models'
 import { useGetResponsesByUserIdQuery } from 'services/responses.endpoints'
 
 import MyResponseCard from './MyResponseCard'
 
 const MyResponses: FC = () => {
-  const { data: responses } = useGetResponsesByUserIdQuery()
+  const { data: responses, isLoading } = useGetResponsesByUserIdQuery()
+  const [filterStatus, setFilterStatus] = useState('all')
+
+  const filterResponses = useCallback(
+    (response: Response) => {
+      return response.status === filterStatus || filterStatus === 'all'
+    },
+    [filterStatus]
+  )
+
+  if (isLoading) {
+    return null
+  }
 
   return (
     <Grid container direction="column" rowGap={2} flexGrow={1}>
@@ -17,7 +37,27 @@ const MyResponses: FC = () => {
         </Grid>
       </Grid>
 
-      {responses?.map(response => (
+      <Grid item>
+        <Grid container justifyContent="flex-end">
+          <Grid item xs={3}>
+            <FormControl fullWidth>
+              <InputLabel>Статус отклика</InputLabel>
+              <Select
+                label="Статус отклика"
+                value={filterStatus}
+                onChange={e => setFilterStatus(e.target.value)}
+              >
+                <MenuItem value="all">Все</MenuItem>
+                <MenuItem value="accepted">Принятые</MenuItem>
+                <MenuItem value="rejected">Отклоненные</MenuItem>
+                <MenuItem value="sent">В ожидании</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+      </Grid>
+
+      {responses?.filter(filterResponses)?.map(response => (
         <Grid key={response.id} item>
           <MyResponseCard response={response} />
         </Grid>
@@ -32,7 +72,7 @@ const MyResponses: FC = () => {
           justifyContent="center"
         >
           <Typography>
-            У пока вас нет коллабораций, но вы можете создать ее прямо сейчас!
+            У пока вас нет откликов, откликнитесь прямо сейчас!
           </Typography>
         </Grid>
       )}

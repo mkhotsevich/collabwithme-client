@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom'
 import * as yup from 'yup'
 
 import { Input, Select, Modal } from 'components'
-import { useGetCategoriesQuery } from 'services/categories'
+import { useGetCategoriesQuery } from 'services/categories.endpoints'
 import {
   useGetCollaborationByIdQuery,
   useUpdateCollaborationMutation

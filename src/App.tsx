@@ -12,8 +12,9 @@ import {
   SignIn,
   SignUp,
   Statistics,
-  MyCollaborations,
   Collaboration,
+  MyCollaborations,
+  MyCollaboration,
   MyResponses
 } from 'pages'
 
@@ -30,6 +31,10 @@ const App: FC = () => {
             <>
               <Route path="/collaborations" element={<Collaborations />} />
               <Route path="/collaborations/:id" element={<Collaboration />} />
+              <Route
+                path="/my-collaborations/:id"
+                element={<MyCollaboration />}
+              />
               <Route path="/profile" element={<Profile />} />
               <Route path="/statistics" element={<Statistics />} />
               <Route path="/my-collaborations" element={<MyCollaborations />} />

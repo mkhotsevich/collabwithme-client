@@ -1,14 +1,14 @@
 import React, { FC } from 'react'
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Grid, Paper } from '@mui/material'
+import { Button, Grid, Paper, Typography } from '@mui/material'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { NavLink } from 'react-router-dom'
 import * as yup from 'yup'
 
 import { Form, Input } from 'components'
 import { useAuth } from 'hooks'
-import { useSignInMutation } from 'services/auth'
+import { useSignInMutation } from 'services/auth.endpoints'
 
 type FormData = {
   email: string
@@ -41,37 +41,47 @@ const SignIn: FC = () => {
   return (
     <Grid container justifyContent="center" alignItems="center" flexGrow={1}>
       <Paper sx={{ width: '512px', p: 2 }}>
-        <Form onSubmit={handleSubmit(submitHandler)}>
-          <Input
-            control={control}
-            name="email"
-            label="Email"
-            required
-            error={!!errors.email}
-            helperText={errors.email?.message}
-          />
-          <Input
-            control={control}
-            name="password"
-            type="password"
-            label="Пароль"
-            required
-            error={!!errors.password}
-            helperText={errors.password?.message}
-          />
-
-          <Grid
-            sx={{ mt: 4 }}
-            container
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Button type="submit">Войти</Button>
-            <Button component={NavLink} to="/sign-up" variant="text">
-              Создать аккаунт
-            </Button>
+        <Grid container direction="column" rowGap={2}>
+          <Grid item>
+            <Typography variant="h6">Вход</Typography>
           </Grid>
-        </Form>
+
+          <Grid item>
+            <Input
+              control={control}
+              name="email"
+              label="Email"
+              required
+              error={!!errors.email}
+              helperText={errors.email?.message}
+            />
+          </Grid>
+
+          <Grid item>
+            <Input
+              control={control}
+              name="password"
+              type="password"
+              label="Пароль"
+              required
+              error={!!errors.password}
+              helperText={errors.password?.message}
+            />
+          </Grid>
+
+          <Grid item>
+            <Grid container columnGap={2}>
+              <Grid item>
+                <Button onClick={handleSubmit(submitHandler)}>Войти</Button>
+              </Grid>
+              <Grid item>
+                <Button component={NavLink} to="/sign-up" variant="outlined">
+                  Создать аккаунт
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
       </Paper>
     </Grid>
   )

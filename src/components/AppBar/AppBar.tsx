@@ -12,7 +12,7 @@ const AppBar: FC = () => {
 
   return (
     <MuiAppBar>
-      <LoadingBar />
+      <LoadingBar showFastActions />
       <Toolbar>
         <Grid container justifyContent="space-between">
           <Grid item>
@@ -26,16 +26,6 @@ const AppBar: FC = () => {
                   color="inherit"
                 >
                   Коллаборации
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  component={NavLink}
-                  to="/responses"
-                  variant="text"
-                  color="inherit"
-                >
-                  Отклики
                 </Button>
               </Grid>
             </Grid>

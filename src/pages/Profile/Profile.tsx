@@ -67,7 +67,7 @@ const linkSchema: yup.SchemaOf<LinkFormData> = yup.object({
 const Profile: FC = () => {
   const { enqueueSnackbar } = useSnackbar()
   const userId = useAppSelector(state => state.auth.user.id)
-  const { data: user } = useGetUserQuery(userId)
+  const { data: user, isLoading } = useGetUserQuery(userId)
   const [updatePersonalInfo, { isLoading: isPersonalInfoUpdating }] =
     useUpdatePersonalInfoMutation()
   const [updatePassword, { isLoading: isPasswordUpdating }] =
@@ -202,6 +202,10 @@ const Profile: FC = () => {
       })
       closeCreateUpdateLinkHandler()
     } catch (e) {}
+  }
+
+  if (isLoading) {
+    return null
   }
 
   return (

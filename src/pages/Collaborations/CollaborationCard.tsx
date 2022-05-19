@@ -3,13 +3,10 @@ import React, { FC } from 'react'
 import {
   Button,
   Card,
-  CardActionArea,
   CardContent,
   Chip,
   Grid,
-  Typography,
-  CardActions,
-  styled
+  Typography
 } from '@mui/material'
 import { format } from 'date-fns'
 import { Link } from 'react-router-dom'
@@ -17,11 +14,6 @@ import { Link } from 'react-router-dom'
 import { useAppSelector } from 'hooks'
 import { Collaboration } from 'models'
 import { useCreateResponseMutation } from 'services/responses.endpoints'
-
-// const CollaborationLink = styled(Typography, {p})(({ theme }) => ({
-//   textDecoration: 'none',
-//   color: theme.palette.primary.main
-// }))
 
 type CollaborationCardProps = {
   collaboration: Collaboration
@@ -51,6 +43,7 @@ const CollaborationCard: FC<CollaborationCardProps> = ({ collaboration }) => {
                   component={Link}
                   to={`/collaborations/${collaboration.id}`}
                   variant="h6"
+                  color="white"
                 >
                   {collaboration.name}
                 </Typography>

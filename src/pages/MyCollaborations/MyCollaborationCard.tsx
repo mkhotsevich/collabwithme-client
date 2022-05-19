@@ -23,7 +23,7 @@ const MyCollaborationCard: FC<MyCollaborationCardProps> = ({
   const navigate = useNavigate()
 
   const clickHandler = () => {
-    navigate(`/collaborations/${collaboration.id}`)
+    navigate(`/my-collaborations/${collaboration.id}`)
   }
 
   return (

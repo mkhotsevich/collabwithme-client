@@ -1,97 +1,160 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect } from 'react'
 
+import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Chip, Grid, Typography } from '@mui/material'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
+import * as yup from 'yup'
 
-import {
-  useGetCollaborationByIdQuery,
-  useDeleteCollaborationMutation
-} from 'services/collaborations.endpoints'
+import { Input } from 'components'
+import { useAppSelector } from 'hooks'
+import { useGetCollaborationByIdQuery } from 'services/collaborations.endpoints'
+import { useCreateResponseMutation } from 'services/responses.endpoints'
 
-import EditCollaborationModal from './EditCollaborationModal'
-import ResponseCard from './ResponseCard'
+type FormData = {
+  explanation?: string
+}
+
+const schema: yup.SchemaOf<FormData> = yup.object({
+  explanation: yup.string().optional()
+})
 
 const Collaboration: FC = () => {
-  const { id: collaborationId } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { data: collaboration } = useGetCollaborationByIdQuery(collaborationId)
-  const [deleteCollaboration] = useDeleteCollaborationMutation()
-  const [update, setUpdate] = useState(false)
+  const userId = useAppSelector(state => state.auth.user.id)
+  const { id } = useParams<{ id: string }>()
+  const { data: collaboration, isLoading } = useGetCollaborationByIdQuery(id)
+  const [createResponse] = useCreateResponseMutation()
+  const owner = collaboration?.userId === userId
+  const responded = collaboration?.responses.some(
+    response => response.userId === userId
+  )
 
-  const deleteHandler = async () => {
-    if (!collaborationId) return
-    await deleteCollaboration(collaborationId).unwrap()
-    navigate('/my-collaborations')
+  const { control, handleSubmit, reset } = useForm<FormData>({
+    defaultValues: { explanation: '' },
+    resolver: yupResolver(schema)
+  })
+
+  const createResponseHandler: SubmitHandler<FormData> = ({ explanation }) => {
+    if (!id) return
+
+    createResponse({
+      collaborationId: +id,
+      explanation: explanation || ''
+    })
+  }
+
+  useEffect(() => {
+    if (owner) {
+      navigate(`/my-collaborations/${id}`)
+    }
+  }, [id, owner, navigate])
+
+  useEffect(() => {
+    const response = collaboration?.responses.find(res => res.userId === userId)
+    reset({ explanation: response?.explanation })
+  }, [collaboration, reset, userId])
+
+  if (isLoading) {
+    return null
   }
 
   return (
     <Grid container direction="column" rowGap={2}>
       <Grid item>
-        <Typography variant="h2">Общая информация</Typography>
+        <Typography variant="h1">{collaboration?.name}</Typography>
       </Grid>
 
       <Grid item>
-        <Typography variant="h6">{collaboration?.name}</Typography>
-      </Grid>
-
-      <Grid item>
-        <Typography>{collaboration?.description}</Typography>
-      </Grid>
-
-      <Grid item>
-        <Grid container alignItems="center" columnSpacing={1}>
+        <Grid container direction="column" rowGap={1}>
           <Grid item>
-            <Typography>Категория:</Typography>
+            <Typography variant="h6">Социальные сети:</Typography>
           </Grid>
-          {collaboration?.categories.map(category => (
-            <Grid item key={category.id}>
-              <Chip size="medium" label={category.name} />
+
+          <Grid item>
+            <Grid container columnGap={1}>
+              {collaboration?.networks.map(net => (
+                <Grid item key={net.id}>
+                  <Chip size="medium" label={net.name} />
+                </Grid>
+              ))}
             </Grid>
-          ))}
+          </Grid>
         </Grid>
       </Grid>
 
       <Grid item>
-        <Grid container alignItems="center" columnSpacing={1}>
+        <Grid container direction="column" rowGap={1}>
           <Grid item>
-            <Typography>Социальные сети:</Typography>
+            <Typography variant="h6">Категория:</Typography>
           </Grid>
-          {collaboration?.networks.map(network => (
-            <Grid item key={network.id}>
-              <Chip size="medium" label={network.name} />
+
+          <Grid item>
+            <Grid container columnGap={1}>
+              {collaboration?.categories.map(cat => (
+                <Grid item key={cat.id}>
+                  <Chip size="medium" label={cat.name} />
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
-      </Grid>
-
-      <Grid item>
-        <Grid container columnGap={2} justifyContent="flex-end">
-          <Grid item>
-            <Button onClick={() => setUpdate(true)}>Редактировать</Button>
-          </Grid>
-          <Grid item>
-            <Button
-              variant="outlined"
-              color="error"
-              onClick={() => deleteHandler()}
-            >
-              Удалить
-            </Button>
           </Grid>
         </Grid>
       </Grid>
 
       <Grid item>
-        <Typography variant="h2">Отклики</Typography>
+        <Grid container direction="column" rowGap={1}>
+          <Grid item>
+            <Typography variant="h6">Автор:</Typography>
+          </Grid>
+
+          <Grid item>
+            <Typography>
+              {collaboration?.user.username} ({collaboration?.user.firstName}{' '}
+              {collaboration?.user.lastName})
+            </Typography>
+          </Grid>
+        </Grid>
       </Grid>
 
-      {collaboration?.responses.map(response => (
-        <Grid key={response.id} item>
-          <ResponseCard response={response} />
-        </Grid>
-      ))}
+      <Grid item>
+        <Grid container direction="column" rowGap={1}>
+          <Grid item>
+            <Typography variant="h6">Описание:</Typography>
+          </Grid>
 
-      <EditCollaborationModal open={update} onClose={() => setUpdate(false)} />
+          <Grid item>
+            <Typography>{collaboration?.description}</Typography>
+          </Grid>
+        </Grid>
+      </Grid>
+
+      <Grid item>
+        <Grid container direction="column" rowGap={1}>
+          <Grid item>
+            <Typography variant="h6">Откликнуться:</Typography>
+          </Grid>
+          <Grid item>
+            <Input
+              control={control}
+              name="explanation"
+              placeholder="Опишите свои пожелания или предложения"
+              multiline
+              minRows={3}
+              maxRows={10}
+              disabled={responded}
+            />
+          </Grid>
+        </Grid>
+      </Grid>
+
+      <Grid item textAlign="right">
+        <Button
+          onClick={handleSubmit(createResponseHandler)}
+          disabled={responded}
+        >
+          Откликнуться
+        </Button>
+      </Grid>
     </Grid>
   )
 }

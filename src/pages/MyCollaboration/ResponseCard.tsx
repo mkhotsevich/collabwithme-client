@@ -32,12 +32,12 @@ const ResponseCard: FC<ResponseCardProps> = ({ response }) => {
   return (
     <BorderedCard status={response.status}>
       <CardContent>
-        <Grid container direction="column" rowGap={2}>
+        <Grid container direction="column" rowGap={1}>
           <Grid item>
             <Typography variant="h6">{response.user.username}</Typography>
           </Grid>
           <Grid item>
-            <Typography variant="h6">{response.explanation}</Typography>
+            <Typography>{response.explanation}</Typography>
           </Grid>
           <Grid item>
             <Grid container columnGap={2} justifyContent="flex-end">
