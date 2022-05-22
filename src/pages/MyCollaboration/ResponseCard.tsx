@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 
 import { LoadingButton } from '@mui/lab'
 import { Card, CardContent, Grid, Typography, styled } from '@mui/material'
+import { Link } from 'react-router-dom'
 
 import { Response } from 'models'
 import { useChangeStatusMutation } from 'services/responses.endpoints'
@@ -34,7 +35,14 @@ const ResponseCard: FC<ResponseCardProps> = ({ response }) => {
       <CardContent>
         <Grid container direction="column" rowGap={1}>
           <Grid item>
-            <Typography variant="h6">{response.user.username}</Typography>
+            <Typography
+              component={Link}
+              to={`/users/${response.userId}`}
+              variant="h6"
+              color="white"
+            >
+              {response.user.username}
+            </Typography>
           </Grid>
           <Grid item>
             <Typography>{response.explanation}</Typography>

@@ -90,8 +90,8 @@ const CollaborationCard: FC<CollaborationCardProps> = ({ collaboration }) => {
             <Typography display="inline">Автор: </Typography>
             <Typography
               component={Link}
-              to={`/profile/${collaboration.userId}`}
-              color="black"
+              to={`/users/${collaboration.userId}`}
+              color="white"
               display="inline"
             >
               {collaboration.user.username}

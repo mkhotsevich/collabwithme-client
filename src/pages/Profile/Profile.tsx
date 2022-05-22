@@ -77,12 +77,8 @@ const Profile: FC = () => {
   const [updateLink, { isLoading: isLinkUpdating }] = useUpdateLinkMutation()
   const { data: networks } = useGetNetworksQuery()
 
-  const createdLinks = user?.links.map(link => ({
-    ...link,
-    network: networks?.find(n => n.id === link.networkId)
-  }))
   const remainedNetworks = networks?.filter(
-    n => !createdLinks?.some(l => l.networkId === n.id)
+    n => !user?.links?.some(l => l.networkId === n.id)
   )
 
   const {
@@ -145,19 +141,22 @@ const Profile: FC = () => {
 
   useEffect(() => {
     personalInfoReset({
-      email: user?.email,
-      firstName: user?.firstName,
-      lastName: user?.lastName,
-      username: user?.username,
-      gender: user?.gender
+      email: user?.email || '',
+      firstName: user?.firstName || '',
+      lastName: user?.lastName || '',
+      username: user?.username || '',
+      gender: genders?.find(g => g.name === user?.gender)?.id || ''
     })
   }, [user, personalInfoReset])
 
   const updatePersonalInfoHandler: SubmitHandler<
     PersonalInfoFormData
-  > = async data => {
+  > = async ({ gender, ...data }) => {
     try {
-      await updatePersonalInfo(data).unwrap()
+      await updatePersonalInfo({
+        ...data,
+        gender: genders.find(g => g.id === gender)?.name || 'Не указан'
+      }).unwrap()
       enqueueSnackbar('Информация о пользователе успешно изменена', {
         variant: 'success'
       })
@@ -342,7 +341,7 @@ const Profile: FC = () => {
 
             <Grid item>
               <Grid container columnGap={2} rowGap={2}>
-                {createdLinks?.map(link => (
+                {user?.links?.map(link => (
                   <Grid key={link.id} item>
                     <Chip
                       size="medium"

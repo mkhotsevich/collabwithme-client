@@ -15,8 +15,11 @@ import {
   Collaboration,
   MyCollaborations,
   MyCollaboration,
-  MyResponses
+  MyResponses,
+  User,
+  Chats
 } from 'pages'
+import Dialog from 'pages/Chats/Dialog'
 
 const App: FC = () => {
   useNotifier()
@@ -31,6 +34,10 @@ const App: FC = () => {
             <>
               <Route path="/collaborations" element={<Collaborations />} />
               <Route path="/collaborations/:id" element={<Collaboration />} />
+              <Route path="/chats" element={<Chats />}>
+                <Route path=":id" element={<Dialog />} />
+              </Route>
+              <Route path="/users/:id" element={<User />} />
               <Route
                 path="/my-collaborations/:id"
                 element={<MyCollaboration />}

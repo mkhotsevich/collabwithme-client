@@ -37,25 +37,27 @@ const MyResponses: FC = () => {
         </Grid>
       </Grid>
 
-      <Grid item>
-        <Grid container justifyContent="flex-end">
-          <Grid item xs={3}>
-            <FormControl fullWidth>
-              <InputLabel>Статус отклика</InputLabel>
-              <Select
-                label="Статус отклика"
-                value={filterStatus}
-                onChange={e => setFilterStatus(e.target.value)}
-              >
-                <MenuItem value="all">Все</MenuItem>
-                <MenuItem value="accepted">Принятые</MenuItem>
-                <MenuItem value="rejected">Отклоненные</MenuItem>
-                <MenuItem value="sent">В ожидании</MenuItem>
-              </Select>
-            </FormControl>
+      {!!responses?.length && (
+        <Grid item>
+          <Grid container justifyContent="flex-end">
+            <Grid item xs={3}>
+              <FormControl fullWidth>
+                <InputLabel>Статус отклика</InputLabel>
+                <Select
+                  label="Статус отклика"
+                  value={filterStatus}
+                  onChange={e => setFilterStatus(e.target.value)}
+                >
+                  <MenuItem value="all">Все</MenuItem>
+                  <MenuItem value="accepted">Принятые</MenuItem>
+                  <MenuItem value="rejected">Отклоненные</MenuItem>
+                  <MenuItem value="sent">В ожидании</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      )}
 
       {responses?.filter(filterResponses)?.map(response => (
         <Grid key={response.id} item>

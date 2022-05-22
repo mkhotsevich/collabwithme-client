@@ -3,7 +3,7 @@ import React, { FC, useEffect } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Chip, Grid, Typography } from '@mui/material'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import * as yup from 'yup'
 
 import { Input } from 'components'
@@ -108,7 +108,11 @@ const Collaboration: FC = () => {
           </Grid>
 
           <Grid item>
-            <Typography>
+            <Typography
+              component={Link}
+              color="white"
+              to={`/users/${collaboration?.user.id}`}
+            >
               {collaboration?.user.username} ({collaboration?.user.firstName}{' '}
               {collaboration?.user.lastName})
             </Typography>

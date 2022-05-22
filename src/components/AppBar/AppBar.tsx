@@ -4,10 +4,9 @@ import { AppBar as MuiAppBar, Button, Grid, Toolbar } from '@mui/material'
 import LoadingBar from 'react-redux-loading-bar'
 import { NavLink } from 'react-router-dom'
 
-import { useAppSelector, useAuth } from 'hooks'
+import { useAuth } from 'hooks'
 
 const AppBar: FC = () => {
-  const userId = useAppSelector(state => state.auth.user.id)
   const { signOut, isAuth } = useAuth()
 
   return (
@@ -53,6 +52,16 @@ const AppBar: FC = () => {
                       color="inherit"
                     >
                       Мои отклики
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      component={NavLink}
+                      to="/chats"
+                      variant="text"
+                      color="inherit"
+                    >
+                      Чат
                     </Button>
                   </Grid>
                   <Grid item>
