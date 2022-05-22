@@ -7,19 +7,17 @@ import { useGetRoomsQuery } from 'services/chats.endpoints'
 
 import Chat from './Chat'
 
-const OverflowPaper = styled(Paper)<{ noSelected?: boolean }>(
-  ({ noSelected }) => ({
-    overflow: 'auto',
-    '::-webkit-scrollbar': {
-      display: 'none'
-    },
-    ...(noSelected && {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-    })
+const OverflowPaper = styled(Paper)<{ selected?: boolean }>(({ selected }) => ({
+  overflow: 'auto',
+  '::-webkit-scrollbar': {
+    display: 'none'
+  },
+  ...(selected && {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   })
-)
+}))
 
 const Chats: FC = () => {
   const { id: roomId } = useParams<{ id: string }>()
@@ -55,7 +53,7 @@ const Chats: FC = () => {
             </OverflowPaper>
           </Grid>
           <Grid item xs={8} flexGrow={1}>
-            <OverflowPaper ref={dialogRef} noSelected={!roomId}>
+            <OverflowPaper ref={dialogRef} selected={!roomId}>
               {roomId ? (
                 <Outlet />
               ) : (

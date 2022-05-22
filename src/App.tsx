@@ -11,26 +11,27 @@ import {
   Responses,
   SignIn,
   SignUp,
-  Statistics,
   Collaboration,
   MyCollaborations,
   MyCollaboration,
   MyResponses,
   User,
-  Chats
+  Chats,
+  Admin,
+  Moderator
 } from 'pages'
 import Dialog from 'pages/Chats/Dialog'
 
 const App: FC = () => {
   useNotifier()
-  const { isAuth } = useAuth()
+  const { isAuth, role } = useAuth()
 
   return (
     <React.Fragment>
       <AppBar />
       <Container>
         <Routes>
-          {isAuth ? (
+          {isAuth && role === 'USER' ? (
             <>
               <Route path="/collaborations" element={<Collaborations />} />
               <Route path="/collaborations/:id" element={<Collaboration />} />
@@ -43,14 +44,24 @@ const App: FC = () => {
                 element={<MyCollaboration />}
               />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/statistics" element={<Statistics />} />
               <Route path="/my-collaborations" element={<MyCollaborations />} />
               <Route path="/my-responses" element={<MyResponses />} />
               <Route path="/responses" element={<Responses />} />
               <Route path="*" element={<Navigate to="/collaborations" />} />
             </>
+          ) : isAuth && role === 'ADMIN' ? (
+            <>
+              <Route path="/admin" element={<Admin />} />
+              <Route path="*" element={<Navigate to="/admin" />} />
+            </>
+          ) : isAuth && role === 'MODERATOR' ? (
+            <>
+              <Route path="/moderator" element={<Moderator />} />
+              <Route path="*" element={<Navigate to="/moderator" />} />
+            </>
           ) : (
             <>
+              <Route path="/collaborations" element={<Collaborations />} />
               <Route path="/sign-up" element={<SignUp />} />
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="*" element={<Navigate to="/sign-in" />} />

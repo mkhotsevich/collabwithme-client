@@ -54,6 +54,11 @@ const Dialog: FC = () => {
         })
       )
     })
+
+    return () => {
+      socket.current?.emit('leaveRoom', { roomId: +id })
+      socket.current?.disconnect()
+    }
   }, [id, dispatch])
 
   const sendMessage: SubmitHandler<FormData> = data => {

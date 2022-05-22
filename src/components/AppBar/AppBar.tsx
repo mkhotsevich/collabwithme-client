@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom'
 import { useAuth } from 'hooks'
 
 const AppBar: FC = () => {
-  const { signOut, isAuth } = useAuth()
+  const { signOut, isAuth, role } = useAuth()
 
   return (
     <MuiAppBar>
@@ -16,23 +16,24 @@ const AppBar: FC = () => {
         <Grid container justifyContent="space-between">
           <Grid item>
             <Grid container columnSpacing={2}>
-              <Grid item></Grid>
-              <Grid item>
-                <Button
-                  component={NavLink}
-                  to="/collaborations"
-                  variant="text"
-                  color="inherit"
-                >
-                  Коллаборации
-                </Button>
-              </Grid>
+              {(!isAuth || role === 'USER') && (
+                <Grid item>
+                  <Button
+                    component={NavLink}
+                    to="/collaborations"
+                    variant="text"
+                    color="inherit"
+                  >
+                    Коллаборации
+                  </Button>
+                </Grid>
+              )}
             </Grid>
           </Grid>
 
           <Grid item>
             <Grid container columnSpacing={2}>
-              {isAuth ? (
+              {isAuth && role === 'USER' ? (
                 <>
                   <Grid item>
                     <Button
@@ -74,6 +75,18 @@ const AppBar: FC = () => {
                       Профиль
                     </Button>
                   </Grid>
+                  <Grid item>
+                    <Button
+                      variant="text"
+                      color="inherit"
+                      onClick={() => signOut()}
+                    >
+                      Выйти
+                    </Button>
+                  </Grid>
+                </>
+              ) : isAuth && (role === 'ADMIN' || role === 'MODERATOR') ? (
+                <>
                   <Grid item>
                     <Button
                       variant="text"

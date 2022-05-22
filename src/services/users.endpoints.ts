@@ -1,8 +1,18 @@
 import { User } from 'models'
-import { collaberAPI } from 'services'
+import { collaberAPI, providesList } from 'services'
 
 type UpdatePersonalInfoDto = Partial<
-  Pick<User, 'email' | 'firstName' | 'lastName' | 'gender' | 'username'>
+  Pick<
+    User,
+    | 'email'
+    | 'firstName'
+    | 'lastName'
+    | 'gender'
+    | 'username'
+    | 'roleId'
+    | 'subscriptionId'
+    | 'id'
+  >
 >
 
 type UpdatePasswordDo = {
@@ -14,6 +24,10 @@ const usersEndpoints = collaberAPI
   .enhanceEndpoints({ addTagTypes: ['User'] })
   .injectEndpoints({
     endpoints: build => ({
+      getUsers: build.query<User[], void>({
+        query: () => ({ url: 'users' }),
+        providesTags: result => providesList(result, 'User')
+      }),
       getUser: build.query<User, string | number | null | undefined>({
         query: id => ({ url: `users/${id}` }),
         providesTags: ['User']
@@ -21,6 +35,14 @@ const usersEndpoints = collaberAPI
       updatePersonalInfo: build.mutation<User, UpdatePersonalInfoDto>({
         query: body => ({
           url: `users/me`,
+          method: 'PATCH',
+          body
+        }),
+        invalidatesTags: ['User']
+      }),
+      updateUser: build.mutation<User, UpdatePersonalInfoDto>({
+        query: ({ id, ...body }) => ({
+          url: `users/${id}`,
           method: 'PATCH',
           body
         }),
@@ -40,5 +62,7 @@ const usersEndpoints = collaberAPI
 export const {
   useGetUserQuery,
   useUpdatePersonalInfoMutation,
-  useUpdatePasswordMutation
+  useUpdatePasswordMutation,
+  useGetUsersQuery,
+  useUpdateUserMutation
 } = usersEndpoints

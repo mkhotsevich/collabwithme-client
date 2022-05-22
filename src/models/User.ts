@@ -1,4 +1,4 @@
-import { Subscription, Link } from 'models'
+import { Subscription, Link, Role } from 'models'
 
 export type User = {
   id: number
@@ -9,5 +9,8 @@ export type User = {
   lastName: string
   gender: string
   subscription: Subscription
+  roleId: number
+  subscriptionId: number
   links: Link[]
+  role: Role
 }

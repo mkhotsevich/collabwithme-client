@@ -55,9 +55,9 @@ const Collaborations: FC = () => {
       const aDate = new Date(a.createdDate).getTime()
       const bDate = new Date(b.createdDate).getTime()
       if (dateSort === 'new') {
-        return aDate - aDate
+        return bDate - aDate
       }
-      return bDate - aDate
+      return aDate - bDate
     },
     [dateSort]
   )
