@@ -13,7 +13,7 @@ const token = localStorage.getItem('token')
 
 const initialState: AuthState = {
   token: token,
-  user: token ? jwtDecode<AuthState['user']>(token) : { id: null, role: null }
+  user: token ? jwtDecode<AuthState['user']>(token) : { id: null, role: null },
 }
 
 const authSlice = createSlice({
@@ -29,8 +29,8 @@ const authSlice = createSlice({
         state.token = null
         state.user = { id: null, role: null }
       }
-    }
-  }
+    },
+  },
 })
 
 export const { setToken } = authSlice.actions

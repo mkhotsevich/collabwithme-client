@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from 'hooks'
 import { Message as MessageType } from 'models'
 import {
   useGetMessagesQuery,
-  chatsEndpointsUtil
+  chatsEndpointsUtil,
 } from 'services/chats.endpoints'
 
 import Message from './Message'
@@ -24,34 +24,38 @@ type FormData = {
 }
 
 const schema: yup.SchemaOf<FormData> = yup.object({
-  message: yup.string().required()
+  message: yup.string().required(),
 })
 
 const Dialog: FC = () => {
   const dispatch = useAppDispatch()
-  const userId = useAppSelector(state => state.auth.user.id)
+  const userId = useAppSelector((state) => state.auth.user.id)
   const { id } = useParams<{ id: string }>()
   const { data: messages } = useGetMessagesQuery(id)
   const socket = useRef<Socket>()
 
   const { control, handleSubmit, reset } = useForm<FormData>({
     defaultValues: { message: '' },
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   })
 
   useEffect(() => {
     if (!process.env.REACT_APP_BASE_URL || !id) return
     socket.current = io(process.env.REACT_APP_BASE_URL, {
-      transports: ['websocket']
+      transports: ['websocket'],
     })
 
     socket.current.emit('joinRoom', { roomId: +id })
 
     socket.current.on('messageToClient', (data: MessageType) => {
       dispatch(
-        chatsEndpointsUtil.updateQueryData('getMessages', id, draftMessages => {
-          draftMessages.push(data)
-        })
+        chatsEndpointsUtil.updateQueryData(
+          'getMessages',
+          id,
+          (draftMessages) => {
+            draftMessages.push(data)
+          }
+        )
       )
     })
 
@@ -61,12 +65,12 @@ const Dialog: FC = () => {
     }
   }, [id, dispatch])
 
-  const sendMessage: SubmitHandler<FormData> = data => {
+  const sendMessage: SubmitHandler<FormData> = (data) => {
     if (!id) return
     socket.current?.emit('messageToServer', {
       senderId: userId,
       roomId: +id,
-      message: data.message
+      message: data.message,
     })
     reset()
   }
@@ -85,8 +89,8 @@ const Dialog: FC = () => {
         p: 2,
         overflow: 'auto',
         '::-webkit-scrollbar': {
-          display: 'none'
-        }
+          display: 'none',
+        },
       }}
       justifyContent="space-between"
       wrap="nowrap"
@@ -97,8 +101,8 @@ const Dialog: FC = () => {
           height: '100%',
           overflow: 'auto',
           '::-webkit-scrollbar': {
-            display: 'none'
-          }
+            display: 'none',
+          },
         }}
       >
         <Grid
@@ -109,8 +113,8 @@ const Dialog: FC = () => {
             display: 'flex',
             flexDirection: 'column-reverse',
             '::-webkit-scrollbar': {
-              display: 'none'
-            }
+              display: 'none',
+            },
           }}
         >
           <InfiniteScroll
@@ -122,7 +126,7 @@ const Dialog: FC = () => {
             loader={<></>}
           >
             <Grid container direction="column" rowGap={2}>
-              {messages?.map(message => (
+              {messages?.map((message) => (
                 <Grid key={message.id} item>
                   <Message message={message} />
                 </Grid>

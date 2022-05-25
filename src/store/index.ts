@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import {
   loadingBarMiddleware,
-  loadingBarReducer
+  loadingBarReducer,
 } from 'react-redux-loading-bar'
 
 import { rtkQueryErrorHandler } from 'middleware'
@@ -14,20 +14,20 @@ const rootReducer = combineReducers({
   [collaberAPI.reducerPath]: collaberAPI.reducer,
   notifications: notificationsReducer,
   auth: authReducer,
-  loadingBar: loadingBarReducer
+  loadingBar: loadingBarReducer,
 })
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: getDefaultMiddleware =>
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(collaberAPI.middleware)
       .concat(rtkQueryErrorHandler)
       .concat(
         loadingBarMiddleware({
-          promiseTypeSuffixes: ['pending', 'fulfilled', 'rejected']
+          promiseTypeSuffixes: ['pending', 'fulfilled', 'rejected'],
         })
-      )
+      ),
 })
 
 export type RootState = ReturnType<typeof store.getState>

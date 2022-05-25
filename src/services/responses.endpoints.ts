@@ -4,17 +4,17 @@ import { collaberAPI, providesList } from 'services'
 const responsesEndpoints = collaberAPI
   .enhanceEndpoints({ addTagTypes: ['Collaboration', 'Response'] })
   .injectEndpoints({
-    endpoints: build => ({
+    endpoints: (build) => ({
       createResponse: build.mutation<
         Response,
         Pick<Response, 'collaborationId' | 'explanation'>
       >({
-        query: body => ({ url: 'responses', method: 'POST', body }),
-        invalidatesTags: ['Collaboration', 'Response']
+        query: (body) => ({ url: 'responses', method: 'POST', body }),
+        invalidatesTags: ['Collaboration', 'Response'],
       }),
       getResponses: build.query<Response[], void>({
         query: () => ({ url: 'responses' }),
-        providesTags: result => providesList(result, 'Response')
+        providesTags: (result) => providesList(result, 'Response'),
       }),
       changeStatus: build.mutation<
         void,
@@ -23,20 +23,20 @@ const responsesEndpoints = collaberAPI
         query: ({ id, ...body }) => ({
           url: `responses/${id}`,
           method: 'PATCH',
-          body
+          body,
         }),
-        invalidatesTags: ['Collaboration']
+        invalidatesTags: ['Collaboration'],
       }),
       getResponsesByUserId: build.query<Response[], void>({
-        query: id => ({ url: `responses/user` }),
-        providesTags: result => providesList(result, 'Response')
-      })
-    })
+        query: (id) => ({ url: `responses/user` }),
+        providesTags: (result) => providesList(result, 'Response'),
+      }),
+    }),
   })
 
 export const {
   useCreateResponseMutation,
   useGetResponsesQuery,
   useChangeStatusMutation,
-  useGetResponsesByUserIdQuery
+  useGetResponsesByUserIdQuery,
 } = responsesEndpoints

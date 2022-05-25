@@ -24,9 +24,9 @@ const UserCard: FC<UserCardProps> = ({ user, roles, subscriptions }) => {
     control,
     reset,
     handleSubmit,
-    formState: { isDirty }
+    formState: { isDirty },
   } = useForm<FormData>({
-    defaultValues: { roleId: '', subscriptionId: '' }
+    defaultValues: { roleId: '', subscriptionId: '' },
   })
 
   const [updateUser] = useUpdateUserMutation()
@@ -35,21 +35,21 @@ const UserCard: FC<UserCardProps> = ({ user, roles, subscriptions }) => {
   useEffect(() => {
     reset({
       roleId: user.role.id.toString(),
-      subscriptionId: user.subscription.id.toString()
+      subscriptionId: user.subscription.id.toString(),
     })
   }, [reset, user])
 
-  const updateUserHandler: SubmitHandler<FormData> = async data => {
+  const updateUserHandler: SubmitHandler<FormData> = async (data) => {
     try {
       await updateUser({
         id: user.id,
         subscriptionId: +data.subscriptionId,
-        roleId: +data.roleId
+        roleId: +data.roleId,
       }).unwrap()
       enqueueSnackbar('Пользователь успешно обновлен', { variant: 'success' })
     } catch (e) {
       enqueueSnackbar('Ошибка при обновлении пользователя', {
-        variant: 'error'
+        variant: 'error',
       })
     }
   }

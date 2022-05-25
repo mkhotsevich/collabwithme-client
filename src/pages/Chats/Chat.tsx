@@ -8,7 +8,7 @@ import { Room } from 'models'
 
 const ChatContainer = styled(Grid)(({ theme }) => ({
   borderBottom: `1px solid ${theme.palette.divider}`,
-  cursor: 'pointer'
+  cursor: 'pointer',
 }))
 
 type ChatProps = {
@@ -17,9 +17,9 @@ type ChatProps = {
 
 const Chat: FC<ChatProps> = ({ chat }) => {
   const { id } = useParams<{ id: string }>()
-  const userId = useAppSelector(state => state.auth.user.id)
+  const userId = useAppSelector((state) => state.auth.user.id)
   const navigate = useNavigate()
-  const user = chat.users.find(user => user.id !== userId)
+  const user = chat.users.find((user) => user.id !== userId)
   const selected = id === chat.id.toString()
 
   return (

@@ -14,13 +14,13 @@ import { Link, Network } from 'models'
 import {
   useCreateLinkMutation,
   useDeleteLinkMutation,
-  useUpdateLinkMutation
+  useUpdateLinkMutation,
 } from 'services/links.endpoints'
 import { useGetNetworksQuery } from 'services/networks.endpoints'
 import {
   useGetUserQuery,
   useUpdatePasswordMutation,
-  useUpdatePersonalInfoMutation
+  useUpdatePersonalInfoMutation,
 } from 'services/users.endpoints'
 
 type PersonalInfoFormData = {
@@ -47,7 +47,7 @@ const personalInfoSchema: yup.SchemaOf<PersonalInfoFormData> = yup.object({
   firstName: yup.string().optional(),
   lastName: yup.string().optional(),
   username: yup.string().required('Обязательно'),
-  gender: yup.string().optional()
+  gender: yup.string().optional(),
 })
 
 const passwordSchema: yup.SchemaOf<PasswordFormData> = yup.object({
@@ -56,17 +56,17 @@ const passwordSchema: yup.SchemaOf<PasswordFormData> = yup.object({
   newPasswordConfirmation: yup
     .string()
     .oneOf([yup.ref('newPassword'), null], 'Пароль не совпадают')
-    .required('Обязательно')
+    .required('Обязательно'),
 })
 
 const linkSchema: yup.SchemaOf<LinkFormData> = yup.object({
   link: yup.string().required('Обязательно'),
-  networkId: yup.string().required()
+  networkId: yup.string().required(),
 })
 
 const Profile: FC = () => {
   const { enqueueSnackbar } = useSnackbar()
-  const userId = useAppSelector(state => state.auth.user.id)
+  const userId = useAppSelector((state) => state.auth.user.id)
   const { data: user, isLoading } = useGetUserQuery(userId)
   const [updatePersonalInfo, { isLoading: isPersonalInfoUpdating }] =
     useUpdatePersonalInfoMutation()
@@ -78,37 +78,37 @@ const Profile: FC = () => {
   const { data: networks } = useGetNetworksQuery()
 
   const remainedNetworks = networks?.filter(
-    n => !user?.links?.some(l => l.networkId === n.id)
+    (n) => !user?.links?.some((l) => l.networkId === n.id)
   )
 
   const {
     control: personalInfoControl,
     reset: personalInfoReset,
     handleSubmit: personalInfoHandleSubmit,
-    formState: { errors: personalInfoErrors }
+    formState: { errors: personalInfoErrors },
   } = useForm<PersonalInfoFormData>({
     defaultValues: {
       email: '',
       firstName: '',
       lastName: '',
       username: '',
-      gender: ''
+      gender: '',
     },
-    resolver: yupResolver(personalInfoSchema)
+    resolver: yupResolver(personalInfoSchema),
   })
 
   const {
     control: passwordControl,
     handleSubmit: passwordHandleSubmit,
     reset: passwordReset,
-    formState: { errors: passwordErrors }
+    formState: { errors: passwordErrors },
   } = useForm<PasswordFormData>({
     defaultValues: {
       currentPassword: '',
       newPassword: '',
-      newPasswordConfirmation: ''
+      newPasswordConfirmation: '',
     },
-    resolver: yupResolver(passwordSchema)
+    resolver: yupResolver(passwordSchema),
   })
 
   const {
@@ -116,10 +116,10 @@ const Profile: FC = () => {
     formState: { errors: linkErrors },
     handleSubmit: linkHandleSubmit,
     setValue: linkSetValue,
-    reset: linkReset
+    reset: linkReset,
   } = useForm<LinkFormData>({
     defaultValues: { link: '', networkId: '' },
-    resolver: yupResolver(linkSchema)
+    resolver: yupResolver(linkSchema),
   })
 
   const [openCreateLink, setOpenCreateLink] = useState<Network | null>(null)
@@ -145,7 +145,7 @@ const Profile: FC = () => {
       firstName: user?.firstName || '',
       lastName: user?.lastName || '',
       username: user?.username || '',
-      gender: genders?.find(g => g.name === user?.gender)?.id || ''
+      gender: genders?.find((g) => g.name === user?.gender)?.id || '',
     })
   }, [user, personalInfoReset])
 
@@ -155,29 +155,31 @@ const Profile: FC = () => {
     try {
       await updatePersonalInfo({
         ...data,
-        gender: genders.find(g => g.id === gender)?.name || 'Не указан'
+        gender: genders.find((g) => g.id === gender)?.name || 'Не указан',
       }).unwrap()
       enqueueSnackbar('Информация о пользователе успешно изменена', {
-        variant: 'success'
+        variant: 'success',
       })
     } catch (e) {}
   }
 
-  const updatePasswordHandler: SubmitHandler<PasswordFormData> = async data => {
+  const updatePasswordHandler: SubmitHandler<PasswordFormData> = async (
+    data
+  ) => {
     try {
       await updatePassword(data).unwrap()
       enqueueSnackbar('Пароль успешно изменен', {
-        variant: 'success'
+        variant: 'success',
       })
       passwordReset()
     } catch (e) {}
   }
 
-  const createLinkHandler: SubmitHandler<LinkFormData> = async data => {
+  const createLinkHandler: SubmitHandler<LinkFormData> = async (data) => {
     try {
       await createLink({ ...data, networkId: +data.networkId }).unwrap()
       enqueueSnackbar('Ссылка успешно добавлена', {
-        variant: 'success'
+        variant: 'success',
       })
       closeCreateUpdateLinkHandler()
     } catch (e) {}
@@ -187,7 +189,7 @@ const Profile: FC = () => {
     try {
       await deleteLink(id).unwrap()
       enqueueSnackbar('Ссылка успешно удалена', {
-        variant: 'success'
+        variant: 'success',
       })
     } catch (e) {}
   }
@@ -197,7 +199,7 @@ const Profile: FC = () => {
       if (!openUpdateLink) return
       await updateLink({ id: openUpdateLink.id, link }).unwrap()
       enqueueSnackbar('Ссылка успешно изменена', {
-        variant: 'success'
+        variant: 'success',
       })
       closeCreateUpdateLinkHandler()
     } catch (e) {}
@@ -341,7 +343,7 @@ const Profile: FC = () => {
 
             <Grid item>
               <Grid container columnGap={2} rowGap={2}>
-                {user?.links?.map(link => (
+                {user?.links?.map((link) => (
                   <Grid key={link.id} item>
                     <Chip
                       size="medium"
@@ -352,7 +354,7 @@ const Profile: FC = () => {
                     />
                   </Grid>
                 ))}
-                {remainedNetworks?.map(network => (
+                {remainedNetworks?.map((network) => (
                   <Grid key={network.id} item>
                     <Chip
                       size="medium"
@@ -381,7 +383,7 @@ const Profile: FC = () => {
             {openUpdateLink && (
               <Typography variant="h6">
                 Изменить ссылку на{' '}
-                {networks?.find(n => n.id === openUpdateLink.networkId)?.name}
+                {networks?.find((n) => n.id === openUpdateLink.networkId)?.name}
               </Typography>
             )}
           </Grid>

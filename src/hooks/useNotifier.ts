@@ -11,7 +11,7 @@ let displayed: Notification['key'][] = []
 export const useNotifier = () => {
   const dispatch = useAppDispatch()
   const notifications = useAppSelector(
-    store => store.notifications.notifications || []
+    (store) => store.notifications.notifications || []
   )
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
@@ -21,7 +21,7 @@ export const useNotifier = () => {
   }
 
   const removeDisplayed = (id: string | number) => {
-    displayed = [...displayed.filter(key => id !== key)]
+    displayed = [...displayed.filter((key) => id !== key)]
   }
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export const useNotifier = () => {
         onExited: (_, myKey) => {
           dispatch(removeSnackbar(myKey))
           removeDisplayed(myKey)
-        }
+        },
       })
       storeDisplayed(key)
     })

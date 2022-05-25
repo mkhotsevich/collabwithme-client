@@ -76,7 +76,7 @@ const Admin: FC = () => {
 
       <Grid item>
         <TextField
-          onChange={e => setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
           value={search}
           placeholder="Поиск"
         />
@@ -84,7 +84,7 @@ const Admin: FC = () => {
 
       <Grid item>
         <Grid container direction="column" rowGap={1}>
-          {users?.filter(filterUsers).map(user => (
+          {users?.filter(filterUsers).map((user) => (
             <Grid item key={user.id}>
               <UserCard
                 user={user}

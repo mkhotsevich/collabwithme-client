@@ -1,25 +1,18 @@
-import { TextField } from '@mui/material'
 import { createTheme } from '@mui/material/styles'
 
 const theme = createTheme({
   palette: {
-    mode: 'dark'
-    // primary: {
-    //   main: ''
-    // },
-    // background: {
-    //   default: '#EEEEEE'
-    // }
+    mode: 'dark',
   },
   typography: {
     h1: {
       fontWeight: 600,
-      fontSize: '48px'
+      fontSize: '48px',
     },
     h2: {
       fontWeight: 600,
-      fontSize: '32px'
-    }
+      fontSize: '32px',
+    },
   },
   components: {
     MuiContainer: {
@@ -29,62 +22,62 @@ const theme = createTheme({
           display: 'flex',
           flexDirection: 'column',
           paddingTop: '80px',
-          paddingBottom: '80px'
-        }
-      }
+          paddingBottom: '80px',
+        },
+      },
     },
     MuiTextField: {
       defaultProps: {
         variant: 'outlined',
         fullWidth: true,
-        size: 'small'
-      }
+        size: 'small',
+      },
     },
     MuiFormControl: {
       defaultProps: {
         size: 'small',
-        fullWidth: true
-      }
+        fullWidth: true,
+      },
     },
     MuiButton: {
       defaultProps: {
-        variant: 'contained'
-      }
+        variant: 'contained',
+      },
     },
 
     MuiPaper: {
       defaultProps: {
-        elevation: 12
-      }
+        elevation: 12,
+      },
     },
     MuiChip: {
       defaultProps: {
-        size: 'small'
-      }
+        size: 'small',
+      },
     },
     MuiCardActions: {
       styleOverrides: {
         root: {
-          padding: '16px'
-        }
-      }
+          padding: '16px',
+        },
+      },
     },
     MuiCardContent: {
       styleOverrides: {
         root: {
           '&:last-child': {
-            paddingBottom: '16px'
-          }
-        }
-      }
+            paddingBottom: '16px',
+          },
+        },
+      },
     },
     // @ts-ignore
     MuiLoadingButton: {
       defaultProps: {
-        variant: 'contained'
-      }
-    }
-  }
+        variant: 'contained',
+      },
+    },
+  },
 })
 
 export default theme

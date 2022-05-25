@@ -4,10 +4,9 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  SelectChangeEvent,
   Select as MuiSelect,
   FormControlProps,
-  FormHelperText
+  FormHelperText,
 } from '@mui/material'
 import { Control, Controller } from 'react-hook-form'
 
@@ -42,7 +41,7 @@ const Select: FC<SelectProps> = ({
             disabled={!options?.length || props.disabled}
             {...field}
           >
-            {options?.map(o => (
+            {options?.map((o) => (
               <MenuItem key={o.id} value={o.id}>
                 {o.name}
               </MenuItem>

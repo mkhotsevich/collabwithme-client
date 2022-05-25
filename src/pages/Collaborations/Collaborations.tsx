@@ -1,14 +1,13 @@
 import React, { FC, useCallback, useState } from 'react'
 
 import {
-  Button,
   FormControl,
   Grid,
   TextField,
   Typography,
   Select,
   InputLabel,
-  MenuItem
+  MenuItem,
 } from '@mui/material'
 
 import { Collaboration } from 'models'
@@ -33,12 +32,12 @@ const Collaborations: FC = () => {
         .toLowerCase()
         .includes(search.toLowerCase())
 
-      const includesCategories = filterCategories.every(cat =>
-        collaboration.categories.some(coll => cat === coll.id)
+      const includesCategories = filterCategories.every((cat) =>
+        collaboration.categories.some((coll) => cat === coll.id)
       )
 
-      const includesNetworks = filterNetworks.every(net =>
-        collaboration.networks.some(coll => net === coll.id)
+      const includesNetworks = filterNetworks.every((net) =>
+        collaboration.networks.some((coll) => net === coll.id)
       )
 
       if (includesSearchName && includesCategories && includesNetworks) {
@@ -76,7 +75,7 @@ const Collaborations: FC = () => {
         <TextField
           value={search}
           label="Поиск"
-          onChange={e => setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
         />
       </Grid>
 
@@ -89,9 +88,11 @@ const Collaborations: FC = () => {
                 label="Категория"
                 multiple
                 value={filterCategories}
-                onChange={e => setFilterCategories(e.target.value as number[])}
+                onChange={(e) =>
+                  setFilterCategories(e.target.value as number[])
+                }
               >
-                {categories?.map(c => (
+                {categories?.map((c) => (
                   <MenuItem key={c.id} value={c.id}>
                     {c.name}
                   </MenuItem>
@@ -107,9 +108,9 @@ const Collaborations: FC = () => {
                 label="Социальная сеть"
                 multiple
                 value={filterNetworks}
-                onChange={e => setFilterNetworks(e.target.value as number[])}
+                onChange={(e) => setFilterNetworks(e.target.value as number[])}
               >
-                {networks?.map(c => (
+                {networks?.map((c) => (
                   <MenuItem key={c.id} value={c.id}>
                     {c.name}
                   </MenuItem>
@@ -124,7 +125,7 @@ const Collaborations: FC = () => {
               <Select
                 label="Сортировка"
                 value={dateSort}
-                onChange={e => setDateSort(e.target.value)}
+                onChange={(e) => setDateSort(e.target.value)}
               >
                 <MenuItem value="new">Сначала новые</MenuItem>
                 <MenuItem value="old">Сначала старые</MenuItem>
@@ -139,7 +140,7 @@ const Collaborations: FC = () => {
           {collaborations
             ?.filter(filterCollaborations)
             ?.sort(sortCollaboration)
-            ?.map(collaboration => (
+            ?.map((collaboration) => (
               <Grid key={collaboration.id} item>
                 <CollaborationCard collaboration={collaboration} />
               </Grid>

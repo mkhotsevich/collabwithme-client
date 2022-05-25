@@ -10,13 +10,13 @@ import Chat from './Chat'
 const OverflowPaper = styled(Paper)<{ selected?: boolean }>(({ selected }) => ({
   overflow: 'auto',
   '::-webkit-scrollbar': {
-    display: 'none'
+    display: 'none',
   },
   ...(selected && {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
-  })
+    justifyContent: 'center',
+  }),
 }))
 
 const Chats: FC = () => {
@@ -45,7 +45,7 @@ const Chats: FC = () => {
         <Grid container flexGrow={1} columnSpacing={2} ref={blockRef}>
           <Grid item xs={4} flexGrow={1}>
             <OverflowPaper ref={chatsRef}>
-              {chats?.map(chat => (
+              {chats?.map((chat) => (
                 <Grid item key={chat.id}>
                   <Chat chat={chat} />
                 </Grid>

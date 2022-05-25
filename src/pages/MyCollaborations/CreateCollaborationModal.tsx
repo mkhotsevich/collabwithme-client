@@ -26,12 +26,12 @@ const createCollaborationSchema: yup.SchemaOf<FormData> = yup.object({
   name: yup.string().required('Обязательно'),
   description: yup.string().required('Обязательно'),
   networkIds: yup.array().min(1, 'Обязательно').required('Обязательно'),
-  categoryIds: yup.array().min(1, 'Обязательно').required('Обязательно')
+  categoryIds: yup.array().min(1, 'Обязательно').required('Обязательно'),
 })
 
 const CreateCollaborationModal: FC<CreateCollaborationModalProps> = ({
   open,
-  onClose
+  onClose,
 }) => {
   const { data: networks } = useGetNetworksQuery()
   const { data: categories } = useGetCategoriesQuery()
@@ -40,18 +40,18 @@ const CreateCollaborationModal: FC<CreateCollaborationModalProps> = ({
   const {
     control,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
       name: '',
       description: '',
       networkIds: [],
-      categoryIds: []
+      categoryIds: [],
     },
-    resolver: yupResolver(createCollaborationSchema)
+    resolver: yupResolver(createCollaborationSchema),
   })
 
-  const submitHandler: SubmitHandler<FormData> = async data => {
+  const submitHandler: SubmitHandler<FormData> = async (data) => {
     await createCollaboration(data)
     onClose()
   }

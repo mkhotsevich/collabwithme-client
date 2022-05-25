@@ -1,4 +1,4 @@
-import React, { FC, VoidFunctionComponent } from 'react'
+import React, { FC } from 'react'
 
 import {
   Card,
@@ -6,7 +6,7 @@ import {
   CardContent,
   Grid,
   Typography,
-  Chip
+  Chip,
 } from '@mui/material'
 import { format } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
@@ -18,7 +18,7 @@ type MyCollaborationCardProps = {
 }
 
 const MyCollaborationCard: FC<MyCollaborationCardProps> = ({
-  collaboration
+  collaboration,
 }) => {
   const navigate = useNavigate()
 
@@ -55,7 +55,7 @@ const MyCollaborationCard: FC<MyCollaborationCardProps> = ({
                 <Grid item>
                   <Typography>Категория:</Typography>
                 </Grid>
-                {collaboration.categories.map(category => (
+                {collaboration.categories.map((category) => (
                   <Grid item key={category.id}>
                     <Chip label={category.name} />
                   </Grid>
@@ -68,7 +68,7 @@ const MyCollaborationCard: FC<MyCollaborationCardProps> = ({
                 <Grid item>
                   <Typography>Социальные сети:</Typography>
                 </Grid>
-                {collaboration.networks.map(network => (
+                {collaboration.networks.map((network) => (
                   <Grid item key={network.id}>
                     <Chip label={network.name} />
                   </Grid>

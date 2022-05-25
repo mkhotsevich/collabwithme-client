@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import {
   useGetCollaborationByIdQuery,
-  useDeleteCollaborationMutation
+  useDeleteCollaborationMutation,
 } from 'services/collaborations.endpoints'
 
 import EditCollaborationModal from './EditCollaborationModal'
@@ -43,7 +43,7 @@ const MyCollaboration: FC = () => {
           <Grid item>
             <Typography>Категория:</Typography>
           </Grid>
-          {collaboration?.categories.map(category => (
+          {collaboration?.categories.map((category) => (
             <Grid item key={category.id}>
               <Chip size="medium" label={category.name} />
             </Grid>
@@ -56,7 +56,7 @@ const MyCollaboration: FC = () => {
           <Grid item>
             <Typography>Социальные сети:</Typography>
           </Grid>
-          {collaboration?.networks.map(network => (
+          {collaboration?.networks.map((network) => (
             <Grid item key={network.id}>
               <Chip size="medium" label={network.name} />
             </Grid>
@@ -85,7 +85,7 @@ const MyCollaboration: FC = () => {
         <Typography variant="h2">Отклики</Typography>
       </Grid>
 
-      {collaboration?.responses.map(response => (
+      {collaboration?.responses.map((response) => (
         <Grid key={response.id} item>
           <ResponseCard response={response} />
         </Grid>

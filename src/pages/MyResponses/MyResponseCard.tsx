@@ -6,7 +6,7 @@ import {
   CardContent,
   Grid,
   styled,
-  Typography
+  Typography,
 } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -26,19 +26,19 @@ const BorderedCard = styled(Card)<{ status: Response['status'] }>(
         : status === 'accepted'
         ? theme.palette.success.main
         : theme.palette.error.main
-    }`
+    }`,
   })
 )
 
 const MyResponseCard: FC<MyResponseCardProps> = ({ response }) => {
-  const userId = useAppSelector(state => state.auth.user.id)
+  const userId = useAppSelector((state) => state.auth.user.id)
   const navigate = useNavigate()
   const [createRoom] = useCreateRoomMutation()
 
   const createRoomHandler = async () => {
     if (!userId) return
     const room = await createRoom({
-      userIds: [response.collaboration.userId, userId]
+      userIds: [response.collaboration.userId, userId],
     }).unwrap()
 
     navigate(`/chats/${room.id}`)

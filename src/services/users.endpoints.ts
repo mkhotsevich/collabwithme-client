@@ -23,40 +23,40 @@ type UpdatePasswordDo = {
 const usersEndpoints = collaberAPI
   .enhanceEndpoints({ addTagTypes: ['User'] })
   .injectEndpoints({
-    endpoints: build => ({
+    endpoints: (build) => ({
       getUsers: build.query<User[], void>({
         query: () => ({ url: 'users' }),
-        providesTags: result => providesList(result, 'User')
+        providesTags: (result) => providesList(result, 'User'),
       }),
       getUser: build.query<User, string | number | null | undefined>({
-        query: id => ({ url: `users/${id}` }),
-        providesTags: ['User']
+        query: (id) => ({ url: `users/${id}` }),
+        providesTags: ['User'],
       }),
       updatePersonalInfo: build.mutation<User, UpdatePersonalInfoDto>({
-        query: body => ({
+        query: (body) => ({
           url: `users/me`,
           method: 'PATCH',
-          body
+          body,
         }),
-        invalidatesTags: ['User']
+        invalidatesTags: ['User'],
       }),
       updateUser: build.mutation<User, UpdatePersonalInfoDto>({
         query: ({ id, ...body }) => ({
           url: `users/${id}`,
           method: 'PATCH',
-          body
+          body,
         }),
-        invalidatesTags: ['User']
+        invalidatesTags: ['User'],
       }),
       updatePassword: build.mutation<User, UpdatePasswordDo>({
-        query: body => ({
+        query: (body) => ({
           url: `users/password`,
           method: 'PATCH',
-          body
+          body,
         }),
-        invalidatesTags: ['User']
-      })
-    })
+        invalidatesTags: ['User'],
+      }),
+    }),
   })
 
 export const {
@@ -64,5 +64,5 @@ export const {
   useUpdatePersonalInfoMutation,
   useUpdatePasswordMutation,
   useGetUsersQuery,
-  useUpdateUserMutation
+  useUpdateUserMutation,
 } = usersEndpoints

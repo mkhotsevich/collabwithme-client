@@ -7,7 +7,7 @@ type NotificationsState = {
 }
 
 const initialState: NotificationsState = {
-  notifications: []
+  notifications: [],
 }
 
 const notificationsSlice = createSlice({
@@ -19,10 +19,10 @@ const notificationsSlice = createSlice({
     },
     removeSnackbar: (state, action: PayloadAction<string | number>) => {
       state.notifications = state.notifications.filter(
-        notification => notification.key !== action.payload
+        (notification) => notification.key !== action.payload
       )
-    }
-  }
+    },
+  },
 })
 
 export const { enqueueSnackbar, removeSnackbar } = notificationsSlice.actions

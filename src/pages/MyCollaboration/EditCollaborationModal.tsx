@@ -10,7 +10,7 @@ import { Input, Select, Modal } from 'components'
 import { useGetCategoriesQuery } from 'services/categories.endpoints'
 import {
   useGetCollaborationByIdQuery,
-  useUpdateCollaborationMutation
+  useUpdateCollaborationMutation,
 } from 'services/collaborations.endpoints'
 import { useGetNetworksQuery } from 'services/networks.endpoints'
 
@@ -30,12 +30,12 @@ const editCollaborationSchema: yup.SchemaOf<FormData> = yup.object({
   name: yup.string().required('Обязательно'),
   description: yup.string().required('Обязательно'),
   networkIds: yup.array().min(1, 'Обязательно').required('Обязательно'),
-  categoryIds: yup.array().min(1, 'Обязательно').required('Обязательно')
+  categoryIds: yup.array().min(1, 'Обязательно').required('Обязательно'),
 })
 
 const EditCollaborationModal: FC<EditCollaborationModalProps> = ({
   open,
-  onClose
+  onClose,
 }) => {
   const { id } = useParams<{ id: string }>()
   const { data: networks } = useGetNetworksQuery()
@@ -47,15 +47,15 @@ const EditCollaborationModal: FC<EditCollaborationModalProps> = ({
     control,
     handleSubmit,
     reset,
-    formState: { errors }
+    formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
       name: '',
       description: '',
       networkIds: [],
-      categoryIds: []
+      categoryIds: [],
     },
-    resolver: yupResolver(editCollaborationSchema)
+    resolver: yupResolver(editCollaborationSchema),
   })
 
   useEffect(() => {
@@ -63,13 +63,13 @@ const EditCollaborationModal: FC<EditCollaborationModalProps> = ({
       reset({
         name: collaboration.name,
         description: collaboration.description,
-        networkIds: collaboration.networks.map(n => n.id),
-        categoryIds: collaboration.categories.map(c => c.id)
+        networkIds: collaboration.networks.map((n) => n.id),
+        categoryIds: collaboration.categories.map((c) => c.id),
       })
     }
-  }, [collaboration])
+  }, [collaboration, reset])
 
-  const submitHandler: SubmitHandler<FormData> = async data => {
+  const submitHandler: SubmitHandler<FormData> = async (data) => {
     if (!id) return
     await updateCollaboration({ id: +id, ...data })
     onClose()

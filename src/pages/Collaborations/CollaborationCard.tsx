@@ -6,7 +6,7 @@ import {
   CardContent,
   Chip,
   Grid,
-  Typography
+  Typography,
 } from '@mui/material'
 import { format } from 'date-fns'
 import { Link } from 'react-router-dom'
@@ -20,9 +20,9 @@ type CollaborationCardProps = {
 }
 
 const CollaborationCard: FC<CollaborationCardProps> = ({ collaboration }) => {
-  const userId = useAppSelector(state => state.auth.user.id)
+  const userId = useAppSelector((state) => state.auth.user.id)
   const responded = collaboration.responses.some(
-    response => response.userId === userId
+    (response) => response.userId === userId
   )
   const owner = collaboration.userId === userId
 
@@ -65,7 +65,7 @@ const CollaborationCard: FC<CollaborationCardProps> = ({ collaboration }) => {
               <Grid item>
                 <Typography>Категория:</Typography>
               </Grid>
-              {collaboration.categories.map(category => (
+              {collaboration.categories.map((category) => (
                 <Grid item key={category.id}>
                   <Chip label={category.name} />
                 </Grid>
@@ -78,7 +78,7 @@ const CollaborationCard: FC<CollaborationCardProps> = ({ collaboration }) => {
               <Grid item>
                 <Typography>Социальные сети:</Typography>
               </Grid>
-              {collaboration.networks.map(network => (
+              {collaboration.networks.map((network) => (
                 <Grid item key={network.id}>
                   <Chip label={network.name} />
                 </Grid>

@@ -16,23 +16,23 @@ type FormData = {
 }
 
 const schema: yup.SchemaOf<FormData> = yup.object({
-  explanation: yup.string().optional()
+  explanation: yup.string().optional(),
 })
 
 const Collaboration: FC = () => {
   const navigate = useNavigate()
-  const userId = useAppSelector(state => state.auth.user.id)
+  const userId = useAppSelector((state) => state.auth.user.id)
   const { id } = useParams<{ id: string }>()
   const { data: collaboration, isLoading } = useGetCollaborationByIdQuery(id)
   const [createResponse] = useCreateResponseMutation()
   const owner = collaboration?.userId === userId
   const responded = collaboration?.responses.some(
-    response => response.userId === userId
+    (response) => response.userId === userId
   )
 
   const { control, handleSubmit, reset } = useForm<FormData>({
     defaultValues: { explanation: '' },
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   })
 
   const createResponseHandler: SubmitHandler<FormData> = ({ explanation }) => {
@@ -40,7 +40,7 @@ const Collaboration: FC = () => {
 
     createResponse({
       collaborationId: +id,
-      explanation: explanation || ''
+      explanation: explanation || '',
     })
   }
 
@@ -51,7 +51,9 @@ const Collaboration: FC = () => {
   }, [id, owner, navigate])
 
   useEffect(() => {
-    const response = collaboration?.responses.find(res => res.userId === userId)
+    const response = collaboration?.responses.find(
+      (res) => res.userId === userId
+    )
     reset({ explanation: response?.explanation })
   }, [collaboration, reset, userId])
 
@@ -73,7 +75,7 @@ const Collaboration: FC = () => {
 
           <Grid item>
             <Grid container columnGap={1}>
-              {collaboration?.networks.map(net => (
+              {collaboration?.networks.map((net) => (
                 <Grid item key={net.id}>
                   <Chip size="medium" label={net.name} />
                 </Grid>
@@ -91,7 +93,7 @@ const Collaboration: FC = () => {
 
           <Grid item>
             <Grid container columnGap={1}>
-              {collaboration?.categories.map(cat => (
+              {collaboration?.categories.map((cat) => (
                 <Grid item key={cat.id}>
                   <Chip size="medium" label={cat.name} />
                 </Grid>

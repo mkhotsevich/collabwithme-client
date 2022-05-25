@@ -15,7 +15,7 @@ const BorderedCard = styled(Card)<{ status: Response['status'] }>(
         : status === 'accepted'
         ? theme.palette.success.main
         : theme.palette.error.main
-    }`
+    }`,
   })
 )
 

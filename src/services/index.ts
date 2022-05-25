@@ -10,9 +10,9 @@ export const collaberAPI = createApi({
       const token = (getState() as RootState).auth.token
       if (token) headers.set('Authorization', `Bearer ${token}`)
       return headers
-    }
+    },
   }),
-  endpoints: () => ({})
+  endpoints: () => ({}),
 })
 
 export function providesList<
@@ -22,7 +22,7 @@ export function providesList<
   return resultsWithIds
     ? [
         { type: tagType, id: 'LIST' },
-        ...resultsWithIds.map(({ id }) => ({ type: tagType, id }))
+        ...resultsWithIds.map(({ id }) => ({ type: tagType, id })),
       ]
     : [{ type: tagType, id: 'LIST' }]
 }

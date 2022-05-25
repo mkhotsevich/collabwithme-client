@@ -1,14 +1,6 @@
 import React, { FC, useState } from 'react'
 
-import {
-  Button,
-  Card,
-  CardActionArea,
-  CardContent,
-  Grid,
-  Typography
-} from '@mui/material'
-import { format } from 'date-fns'
+import { Button, Grid, Typography } from '@mui/material'
 
 import { useAppSelector } from 'hooks'
 import { useGetCollaborationByUserIdQuery } from 'services/collaborations.endpoints'
@@ -17,7 +9,7 @@ import CreateCollaborationModal from './CreateCollaborationModal'
 import MyCollaborationCard from './MyCollaborationCard'
 
 const MyCollaborations: FC = () => {
-  const userId = useAppSelector(state => state.auth.user.id)
+  const userId = useAppSelector((state) => state.auth.user.id)
   const { data: collaborations, isLoading } =
     useGetCollaborationByUserIdQuery(userId)
   const [openCreateCollaborationModal, setOpenCollaborationModal] =
@@ -56,7 +48,7 @@ const MyCollaborations: FC = () => {
         </Grid>
       )}
 
-      {collaborations?.map(collaboration => (
+      {collaborations?.map((collaboration) => (
         <Grid key={collaboration.id} item>
           <MyCollaborationCard collaboration={collaboration} />
         </Grid>

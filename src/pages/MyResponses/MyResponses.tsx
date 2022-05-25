@@ -6,7 +6,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Typography
+  Typography,
 } from '@mui/material'
 
 import { Response } from 'models'
@@ -46,7 +46,7 @@ const MyResponses: FC = () => {
                 <Select
                   label="Статус отклика"
                   value={filterStatus}
-                  onChange={e => setFilterStatus(e.target.value)}
+                  onChange={(e) => setFilterStatus(e.target.value)}
                 >
                   <MenuItem value="all">Все</MenuItem>
                   <MenuItem value="accepted">Принятые</MenuItem>
@@ -59,7 +59,7 @@ const MyResponses: FC = () => {
         </Grid>
       )}
 
-      {responses?.filter(filterResponses)?.map(response => (
+      {responses?.filter(filterResponses)?.map((response) => (
         <Grid key={response.id} item>
           <MyResponseCard response={response} />
         </Grid>

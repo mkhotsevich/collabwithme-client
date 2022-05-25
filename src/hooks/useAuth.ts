@@ -3,8 +3,8 @@ import { setToken } from 'store/auth'
 
 export const useAuth = () => {
   const dispatch = useAppDispatch()
-  const token = useAppSelector(store => store.auth.token)
-  const role = useAppSelector(state => state.auth.user.role)
+  const token = useAppSelector((store) => store.auth.token)
+  const role = useAppSelector((state) => state.auth.user.role)
 
   const signIn = (token: string) => {
     localStorage.setItem('token', token)

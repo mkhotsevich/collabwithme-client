@@ -8,7 +8,7 @@ const ModalContainer = styled(Paper)(({ theme }) => ({
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: '512px',
-  padding: theme.spacing(2)
+  padding: theme.spacing(2),
 }))
 
 const Modal: FC<ModalProps> = ({ children, ...props }) => {

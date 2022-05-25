@@ -14,28 +14,28 @@ type UpdateCollaborationDto = Pick<
 const collaborationsAPI = collaberAPI
   .enhanceEndpoints({ addTagTypes: ['Collaboration'] })
   .injectEndpoints({
-    endpoints: build => ({
+    endpoints: (build) => ({
       createCollaboration: build.mutation<Collaboration, CreateCollaboration>({
-        query: body => ({ url: 'collaborations', method: 'POST', body }),
-        invalidatesTags: ['Collaboration']
+        query: (body) => ({ url: 'collaborations', method: 'POST', body }),
+        invalidatesTags: ['Collaboration'],
       }),
       getCollaborations: build.query<Collaboration[], void>({
         query: () => ({ url: 'collaborations' }),
-        providesTags: result => providesList(result, 'Collaboration')
+        providesTags: (result) => providesList(result, 'Collaboration'),
       }),
       getCollaborationByUserId: build.query<
         Collaboration[],
         string | number | null
       >({
-        query: id => ({ url: `collaborations/users/${id}` }),
-        providesTags: result => providesList(result, 'Collaboration')
+        query: (id) => ({ url: `collaborations/users/${id}` }),
+        providesTags: (result) => providesList(result, 'Collaboration'),
       }),
       getCollaborationById: build.query<
         Collaboration,
         string | number | undefined
       >({
-        query: id => ({ url: `collaborations/${id}` }),
-        providesTags: result => [{ type: 'Collaboration', id: result?.id }]
+        query: (id) => ({ url: `collaborations/${id}` }),
+        providesTags: (result) => [{ type: 'Collaboration', id: result?.id }],
       }),
       updateCollaboration: build.mutation<
         Collaboration,
@@ -44,15 +44,15 @@ const collaborationsAPI = collaberAPI
         query: ({ id, ...body }) => ({
           url: `collaborations/${id}`,
           method: 'PATCH',
-          body
+          body,
         }),
-        invalidatesTags: ['Collaboration']
+        invalidatesTags: ['Collaboration'],
       }),
       deleteCollaboration: build.mutation<void, string | number>({
-        query: id => ({ url: `collaborations/${id}`, method: 'DELETE' }),
-        invalidatesTags: ['Collaboration']
-      })
-    })
+        query: (id) => ({ url: `collaborations/${id}`, method: 'DELETE' }),
+        invalidatesTags: ['Collaboration'],
+      }),
+    }),
   })
 
 export const {
@@ -61,5 +61,5 @@ export const {
   useGetCollaborationByUserIdQuery,
   useGetCollaborationByIdQuery,
   useUpdateCollaborationMutation,
-  useDeleteCollaborationMutation
+  useDeleteCollaborationMutation,
 } = collaborationsAPI

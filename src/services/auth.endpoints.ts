@@ -9,22 +9,22 @@ type SignInCredentials = { email: string; password: string }
 type AuthToken = { token: string }
 
 const authEndpoints = collaberAPI.injectEndpoints({
-  endpoints: build => ({
+  endpoints: (build) => ({
     signUp: build.mutation<AuthToken, SignUpCredentials>({
-      query: body => ({
+      query: (body) => ({
         url: 'auth/sign-up',
         method: 'POST',
-        body
-      })
+        body,
+      }),
     }),
     signIn: build.mutation<AuthToken, SignInCredentials>({
-      query: body => ({
+      query: (body) => ({
         url: 'auth/sign-in',
         method: 'POST',
-        body
-      })
-    })
-  })
+        body,
+      }),
+    }),
+  }),
 })
 
 export const { useSignUpMutation, useSignInMutation } = authEndpoints

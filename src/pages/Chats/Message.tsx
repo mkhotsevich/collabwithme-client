@@ -12,7 +12,7 @@ type MessageProps = {
 const MessageContainer = styled(Paper)(() => ({}))
 
 const Message: FC<MessageProps> = ({ message }) => {
-  const userId = useAppSelector(state => state.auth.user.id)
+  const userId = useAppSelector((state) => state.auth.user.id)
   return (
     <Grid
       container

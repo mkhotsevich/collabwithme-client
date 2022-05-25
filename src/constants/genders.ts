@@ -6,14 +6,14 @@ type Gender = {
 export const genders: Gender[] = [
   {
     id: '1',
-    name: 'Не указан'
+    name: 'Не указан',
   },
   {
     id: '2',
-    name: 'Мужской'
+    name: 'Мужской',
   },
   {
     id: '3',
-    name: 'Женский'
-  }
+    name: 'Женский',
+  },
 ]

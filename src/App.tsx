@@ -18,7 +18,7 @@ import {
   User,
   Chats,
   Admin,
-  Moderator
+  Moderator,
 } from 'pages'
 import Dialog from 'pages/Chats/Dialog'
 

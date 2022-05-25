@@ -8,7 +8,7 @@ import { useGetUserQuery } from 'services/users.endpoints'
 
 const User: FC = () => {
   const navigate = useNavigate()
-  const userId = useAppSelector(state => state.auth.user.id)
+  const userId = useAppSelector((state) => state.auth.user.id)
   const { id } = useParams<{ id: string }>()
   const { data: user } = useGetUserQuery(id)
 
@@ -85,7 +85,7 @@ const User: FC = () => {
 
             <Grid item>
               <Grid container columnGap={1}>
-                {user?.links?.map(link => (
+                {user?.links?.map((link) => (
                   <Grid item key={link.id}>
                     <Chip
                       size="medium"

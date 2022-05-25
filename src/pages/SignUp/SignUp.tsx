@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { NavLink } from 'react-router-dom'
 import * as yup from 'yup'
 
-import { Form, Input } from 'components'
+import { Input } from 'components'
 import { useAuth } from 'hooks'
 import { useSignUpMutation } from 'services/auth.endpoints'
 
@@ -28,7 +28,7 @@ const signUpSchema: yup.SchemaOf<FormData> = yup.object({
     .required('Обязательно'),
   firstName: yup.string().required('Обязательно'),
   lastName: yup.string().required('Обязательно'),
-  username: yup.string().required('Обязательно')
+  username: yup.string().required('Обязательно'),
 })
 
 const SignUp: FC = () => {
@@ -38,7 +38,7 @@ const SignUp: FC = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
       email: '',
@@ -46,9 +46,9 @@ const SignUp: FC = () => {
       passwordConfirmation: '',
       firstName: '',
       lastName: '',
-      username: ''
+      username: '',
     },
-    resolver: yupResolver(signUpSchema)
+    resolver: yupResolver(signUpSchema),
   })
 
   const submitHandler: SubmitHandler<FormData> = async ({
