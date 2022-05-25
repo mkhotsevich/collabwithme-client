@@ -40,8 +40,8 @@ const Dialog: FC = () => {
   })
 
   useEffect(() => {
-    if (!process.env.REACT_APP_BASE_URL || !id) return
-    socket.current = io(process.env.REACT_APP_BASE_URL, {
+    if (!process.env.REACT_APP_BASE_URL_WS || !id) return
+    socket.current = io(process.env.REACT_APP_BASE_URL_WS, {
       transports: ['websocket'],
     })
 
